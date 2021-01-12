@@ -10,9 +10,15 @@ def open_and_read_file(file_path):
     the file's contents as one string of text.
     """
 
-    # your code goes here
+    # Open the file and assign that a name
+    # Read the file as an entire string
+    # split out the white space
 
-    return 'Contents of your file as one long string'
+    text_to_convert = open(file_path)
+    text_string = text_to_convert.read()
+    
+    
+    return text_string
 
 
 def make_chains(text_string):
@@ -42,9 +48,57 @@ def make_chains(text_string):
 
     chains = {}
 
-    # your code goes here
+    # take input text, look through text, 
+    # separate text into tuples
+    # tuples will be our key for dictionary
+    # each key will need values (the words that follow previous word)
+    # repeat until the end of the text
+    # return the dictionary
+     
 
-    return chains
+    split_text = text_string.split()
+    # print(split_text)
+    # print(type(split_text))
+    n = 0   # n is our counter
+    x = 2
+    key_tuples = ()
+    key_list = []
+    for key in split_text:
+        key_tuples = (split_text[n], split_text[n+1])
+        # print(key)
+        # print(len(split_text))
+        
+        # print(key_list)
+        key_list.append(key_tuples)
+        
+        # to create dictionary, check if tuple exists
+        # if tuple exists, add to value list with the word immed following
+        # if tuple doesn't exist, 
+            # add tuple to key list and create new value list
+        
+        if n == (len(split_text) - 3):
+            continue
+            chains.get(key_tuples, split_text[n+2])  
+        print(chains)   
+    
+        if n == (len(split_text) - 2):
+            break
+        n += 1
+        x += 1
+    #return key_list
+    print(key_list)
+    # print((split_text[41]))
+    
+    x = 0   # tuple counter
+    #for key2 in key_list:
+    #    chains[key2] = chains.get(key_tuples, split_text[x+2])
+        # print(chains)
+
+        # if x == (len(split_text) - 3):
+        #     break
+        # # x += 1
+
+    # return chains
 
 
 def make_text(chains):
