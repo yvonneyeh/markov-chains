@@ -16,6 +16,7 @@ def open_and_read_file(file_path):
 
     text_to_convert = open(file_path)
     text_string = text_to_convert.read()
+    text_to_convert.close()
     
     
     return text_string
@@ -45,68 +46,94 @@ def make_chains(text_string):
         >>> chains[('there','juanita')]
         [None]
     """
-
-    chains = {}
-
     # take input text, look through text, 
     # separate text into tuples
     # tuples will be our key for dictionary
     # each key will need values (the words that follow previous word)
     # repeat until the end of the text
     # return the dictionary
-     
 
-    split_text = text_string.split()
-    # print(split_text)
-    # print(type(split_text))
-    n = 0   # n is our counter
-    x = 2
+    # loop through words to make tuple list
+    # check before adding if the new tuple key already exists
+    #    if key not in key_tuples
+    # if it is not there, chains = {key_tuple:words[n+2]}
+    # if it is there, add your third word to the value for the key_tuples
+        # chains[key_tuples] = (words[n+2])
+    # when you've reached the end of the index, 
+    # you need to add the final word to the value
+        # words[-1]
+    # print(words[0])
+
+    chains = {}
+
+    n = 0   # n is the counter
     key_tuples = ()
     key_list = []
-    for key in split_text:
-        key_tuples = (split_text[n], split_text[n+1])
-        # print(key)
-        # print(len(split_text))
+    chains[key_tuples] = []
+    value_list = []
+
+    words = text_string.split()
+    # To set a stop point, append None to the end of our word list.
+    words.append(None)
+
+    for key in words: 
+        if n != (len(words) - 2):
+            key_tuples = (words[n], words[n + 1])
+            value = words[n + 2]
         
-        # print(key_list)
-        key_list.append(key_tuples)
+        # if key_tuples not in key_list:
+        #     key_list.append(key_tuples)
         
         # to create dictionary, check if tuple exists
         # if tuple exists, add to value list with the word immed following
         # if tuple doesn't exist, 
-            # add tuple to key list and create new value list
+        # add tuple to key list and create new value list
+            
+            if key_tuples not in chains:
+                chains[key_tuples] = []
+                # chains[key_tuples] = [value]
+                # chains[key] = value
+                # dict_name[watermelon] = dict_name.get(1, i)
+                # chains[key_tuples] = chains.get(key_tuples, value_list.append(value))
+                #chains[key_tuples] = chains[key_tuples].append(words[n+2])
+            chains[key_tuples].append(value)
+            n += 1
+            # if key_tuples in chains:
+            #     current_value = chains[key_tuples]
+            #     current_value.append(value) 
+            #     chains[key_tuples] = [value]
         
-        if n == (len(split_text) - 3):
-            continue
-            chains.get(key_tuples, split_text[n+2])  
-        print(chains)   
-    
-        if n == (len(split_text) - 2):
-            break
-        n += 1
-        x += 1
+        # if n == (len(words) - 2):
+        #     chains[key_tuples] = chains[key_tuples].append(words[-1])
+        #     chains = {key_tuples:chains[key_tuples]}
+        #     break
+            
+        #x += 1
     #return key_list
-    print(key_list)
-    # print((split_text[41]))
+    # print(key_list)
+    # print((words[41]))
     
-    x = 0   # tuple counter
+    # x = 0   # tuple counter
     #for key2 in key_list:
-    #    chains[key2] = chains.get(key_tuples, split_text[x+2])
-        # print(chains)
 
-        # if x == (len(split_text) - 3):
+        # if x == (len(words) - 3):
         #     break
         # # x += 1
 
-    # return chains
-
+    return chains
+    # print(chains)
 
 def make_text(chains):
     """Return text from chains."""
 
-    words = []
+    key = choice(list(chains.keys()))
+    words = [key[0], key[1]]
+    word = choice(chains[key])
 
-    # your code goes here
+    while word is not None:
+        key = (key[1], word)
+        words.append(word)
+        word = choice(chains[key])
 
     return ' '.join(words)
 
